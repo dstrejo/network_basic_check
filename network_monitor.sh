@@ -7,6 +7,12 @@ check_interfaces() {
     echo "Network interfaces checked."
 }
 
+
+#Function to send email notifications
+send_notification(){
+	echo "Subject: $host Unreachable" | sendmail -v email@address.com
+}
+
 # Function to ping remote hosts
 ping_hosts() {
 	hosts=("8.8.8.8" "1.1.1.1")
@@ -16,7 +22,8 @@ ping_hosts() {
         if [ $? -eq 0 ]; then
             echo "Host $host is reachable."
         else
-            echo "Host $host is not reachable."
+            	send_notification
+		echo "Host $host is not reachable."
         fi
     done
     echo "Remote hosts pinged."
